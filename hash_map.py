@@ -1,7 +1,7 @@
 class HashMap:
 
-# Constructor function for class with default capacity of 16
-  def __init__(self, initialCapacity = 16):
+# Constructor function for class with default capacity of 
+  def __init__(self, initialCapacity = 32):
     self.capacity = initialCapacity
     # creates a fixed array initialized with None as a value in each cell
     self.map = [None] * initialCapacity
