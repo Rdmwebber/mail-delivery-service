@@ -1,7 +1,9 @@
-from hash_map import HashMap
 import csv
+from datetime import timedelta
+from hash_map import HashMap
 from address_distance import Address
 from package import Package
+from truck import Truck
 
 
 # Instantiate hashMap to be used for packages
@@ -36,7 +38,7 @@ with open('CSV/DistanceTable.csv','r',encoding='utf-8-sig') as csvAddresses:
     address = Address(normalizedLocationName,normalizedAddress,distanceList,index)
 
     #add address instance to hashMap
-    addressHashMap.insert(address.address,address)
+    addressHashMap.insert(normalizedAddress,address)
     
     index+= 1
 
@@ -62,3 +64,11 @@ with open('CSV/PackageFile.csv','r',encoding='utf-8-sig') as csvPackages:
 
 
 
+#Check distance to next address
+def checkDistance(truck,package):
+  curAddress=addressHashMap.getValue(truck.currentLocation)
+  nextAddress=addressHashMap.getValue(package.address)
+  if curAddress.getDistance(nextAddress.index) == "":
+    return nextAddress.getDistance(curAddress.index)
+  else: 
+    return curAddress.getDistance(nextAddress.index)
