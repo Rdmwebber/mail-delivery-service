@@ -64,11 +64,18 @@ with open('CSV/PackageFile.csv','r',encoding='utf-8-sig') as csvPackages:
 
 
 
+
 #Check distance to next address
-def checkDistance(truck,package):
-  curAddress=addressHashMap.getValue(truck.currentLocation)
-  nextAddress=addressHashMap.getValue(package.address)
+def checkDistance(locationOne,locationTwo):
+  curAddress=addressHashMap.getValue(locationOne)
+  nextAddress=addressHashMap.getValue(locationTwo)
   if curAddress.getDistance(nextAddress.index) == "":
     return nextAddress.getDistance(curAddress.index)
   else: 
     return curAddress.getDistance(nextAddress.index)
+  
+#organize packages using nearest neighbour 
+
+
+# Load Trucks
+truckOne = Truck()
