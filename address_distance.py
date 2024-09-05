@@ -6,5 +6,5 @@ class Address:
     self.distanceList = distanceList
     self.index = index
 
-    def getDistance(index):
-      return distanceList[index]
+  def getDistance(self,index):
+    return self.distanceList[index]
