@@ -1,8 +1,8 @@
 from datetime import timedelta
 class Truck:
 
-  def __init__(self,packages,departureTime,currentLocation,gpsMap):
-    self.packages = packages
+  def __init__(self,departureTime,gpsMap,currentLocation='HUB'):
+    self.packages = []
     self.gpsMap = gpsMap
     self.depatureTime = departureTime
     self.speed = 18
@@ -25,11 +25,11 @@ class Truck:
 
   #distance reference isn't bidirectional so you have to check both x(y) and y(x)
     if curAddress.getDistance(nextAddress.index) == "":
-     return nextAddress.getDistance(curAddress.index)
+     return float(nextAddress.getDistance(curAddress.index))
     else: 
-      return curAddress.getDistance(nextAddress.index)
+      return float(curAddress.getDistance(nextAddress.index))
    
-   # find which package in the truck that hasn't been delivered is closest  
+   # find which package in the truck that hasn't been delivered is closest using nearest neighbour. Time complexity of O(nm)
   def nextClosest(self):
     minDistance = float('inf')
     closestPackage = self.packages[0]
@@ -41,12 +41,37 @@ class Truck:
       if pkg.status != "Delivered" and distance < minDistance:
         minDistance = distance
         closestPackage = pkg
+
+        print("Shortest is", minDistance)
+        print("")
     
-    return closestPackage
+    return [closestPackage,minDistance]
+  
+  def deliverPackage(self,nextPackage,distance):
+    #update truck data
+    
+    self.currentLocation = nextPackage.address
+    print("PACKAGE DELIVERED AT", self.currentLocation)
+    self.mileage+= distance
+    print("MILEAGE IS NOW ", self.mileage)
+    self.time += timedelta(hours=distance/self.speed)
+    print("The time is", self.time)
+
+    #update package data
+    nextPackage.status = "Delivered"
+  
+  def startRoute(self):
+    for i in range(1,len(self.packages)):
+      (nextPackage,distance) = self.nextClosest()
+      self.deliverPackage(nextPackage,distance)
 
 
-  def loadTruck(self,packageHashMap, packageIDs)
+  def loadTruck(self,packageHashMap, packageIDs):
     for id in packageIDs:
-      
+      pkg = packageHashMap.getValue(id)
+      pkg.departureTime = self.time
+      pkg.status = "On Truck"
+      self.packages.append(pkg)
+
     
  

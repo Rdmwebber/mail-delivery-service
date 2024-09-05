@@ -64,6 +64,9 @@ with open('CSV/PackageFile.csv','r',encoding='utf-8-sig') as csvPackages:
 
 
 
-
+packageBundleOne = [1,2,3,4,5,6,7,8,9,10]
 # Load Trucks
-truckOne = Truck()
+truckOne = Truck(timedelta(hours=9,minutes =5),gpsMap)
+truckOne.loadTruck(packageHashMap,packageBundleOne)
+truckOne.startRoute()
+
