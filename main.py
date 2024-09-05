@@ -10,7 +10,7 @@ from truck import Truck
 packageHashMap = HashMap()
 
 # Instantiate Address hashMap,encoding='utf-8-sig'
-addressHashMap = HashMap()
+gpsMap = HashMap()
 
 
 #Open CSV Files
@@ -38,7 +38,7 @@ with open('CSV/DistanceTable.csv','r',encoding='utf-8-sig') as csvAddresses:
     address = Address(normalizedLocationName,normalizedAddress,distanceList,index)
 
     #add address instance to hashMap
-    addressHashMap.insert(normalizedAddress,address)
+    gpsMap.insert(normalizedAddress,address)
     
     index+= 1
 
@@ -63,18 +63,6 @@ with open('CSV/PackageFile.csv','r',encoding='utf-8-sig') as csvPackages:
     packageHashMap.insert(pkgId,package)
 
 
-
-
-#Check distance to next address
-def checkDistance(locationOne,locationTwo):
-  curAddress=addressHashMap.getValue(locationOne)
-  nextAddress=addressHashMap.getValue(locationTwo)
-  if curAddress.getDistance(nextAddress.index) == "":
-    return nextAddress.getDistance(curAddress.index)
-  else: 
-    return curAddress.getDistance(nextAddress.index)
-  
-#organize packages using nearest neighbour 
 
 
 # Load Trucks
