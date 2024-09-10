@@ -42,8 +42,7 @@ class Truck:
         minDistance = distance
         closestPackage = pkg
 
-        print("Shortest is", minDistance)
-        print("")
+        
     
     return [closestPackage,minDistance]
   
@@ -51,27 +50,34 @@ class Truck:
     #update truck data
     
     self.currentLocation = nextPackage.address
-    print("PACKAGE DELIVERED AT", self.currentLocation)
     self.mileage+= distance
-    print("MILEAGE IS NOW ", self.mileage)
     self.time += timedelta(hours=distance/self.speed)
-    print("The time is", self.time)
 
     #update package data
     nextPackage.status = "Delivered"
-  
+    nextPackage.deliveryTime = self.time
+    
+    
+  #starts the route
   def startRoute(self):
-    for i in range(1,len(self.packages)):
+    for pkg in self.packages:
       (nextPackage,distance) = self.nextClosest()
       self.deliverPackage(nextPackage,distance)
+      
+      
 
-
+#retrieves package from hashmap using the id
   def loadTruck(self,packageHashMap, packageIDs):
     for id in packageIDs:
       pkg = packageHashMap.getValue(id)
       pkg.departureTime = self.time
-      pkg.status = "On Truck"
       self.packages.append(pkg)
 
+#prints status of all packages on truck at time passed as argument
+  def truckStatus(self,time,name):
+    print(name,"\n")
+    for pkg in self.packages:
+      print(pkg.packageCheck(time),"\n")
+      
     
  
