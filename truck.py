@@ -75,7 +75,7 @@ class Truck:
 
 #prints status of all packages on truck at time passed as argument
   def truckStatus(self,time,name):
-    print(name,"\n")
+    print(f"{name} at {time}")
     for pkg in self.packages:
       print(pkg.packageCheck(time),"\n")
       
