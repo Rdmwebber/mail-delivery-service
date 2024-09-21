@@ -29,14 +29,26 @@ class Truck:
     else: 
       return float(curAddress.getDistance(nextAddress.index))
    
-   # find which package in the truck that hasn't been delivered is closest using nearest neighbour. Time complexity of O(nm)
+   # find which package in the truck that hasn't been delivered is closest using nearest neighbour. Time complexity of O(N)
   def nextClosest(self):
     minDistance = float('inf')
     closestPackage = self.packages[0]
+    
 
     for pkg in self.packages:
 
-      distance = self.checkDistance(self.currentLocation,pkg.address)
+      address = pkg.address
+
+      #Guard clause so package isn't considered if it needs an update until the update is complete
+      if pkg.update != None:
+        #if pkg hasnt been updated yet. check next pkg
+        if pkg.update.updateTime > self.time:
+          continue
+        else:
+          address = pkg.update.address
+  
+
+      distance = self.checkDistance(self.currentLocation,address)
 
       if pkg.status != "Delivered" and distance < minDistance:
         minDistance = distance
@@ -47,9 +59,15 @@ class Truck:
     return [closestPackage,minDistance]
   
   def deliverPackage(self,nextPackage,distance):
-    #update truck data
     
-    self.currentLocation = nextPackage.address
+    currentLocation = nextPackage.address
+
+    if nextPackage.update != None:
+      currentLocation = nextPackage.update.address 
+
+
+    #update truck data
+    self.currentLocation = currentLocation
     self.mileage+= distance
     self.time += timedelta(hours=distance/self.speed)
 

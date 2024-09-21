@@ -12,6 +12,7 @@ class Package:
     self.status = "At Hub"
     self.departureTime = None
     self.deliveryTime = None
+    self.update = None
     
   #Over ride return string to print status of package object
   def __str__(self):
@@ -22,6 +23,9 @@ class Package:
 
     curStatus = "At Hub"
     deliveryPrefix="Estimated"
+    address=self.address
+    city=self.city
+    zipCode = self.zipCode
 
     if time > self.departureTime and time < self.deliveryTime:
       curStatus = "En Route"
@@ -31,4 +35,12 @@ class Package:
       deliveryPrefix=""
 
 
-    return f"ID:{self.pkgID} Address:{self.address} City:{self.city} ZipCode:{self.zipCode} Weight:{self.weight} {deliveryPrefix}DeliveryTime:{self.deliveryTime} Status:{curStatus}"
+    #return info for updated address if past update time
+    if self.update != None and self.update.updateTime <= time:
+      address=self.update.address
+      city=self.update.city
+      zipCode = self.update.zipCode
+
+
+
+    return f"ID:{self.pkgID} Address:{address} City:{city} ZipCode:{zipCode} Weight:{self.weight} {deliveryPrefix}DeliveryTime:{self.deliveryTime} Status:{curStatus}"

@@ -6,6 +6,7 @@ from hash_map import HashMap
 from address_distance import Address
 from package import Package
 from truck import Truck
+from update import Update
 
 
 # Instantiate hashMap to be used for packages
@@ -65,6 +66,11 @@ with open('CSV/PackageFile.csv','r',encoding='utf-8-sig') as csvPackages:
     packageHashMap.insert(pkgId,package)
 
 
+# Pkg 9 requires update at 10:20am to new address. Added update attribute that will stop package from delivery and not update until update time
+pkgNine=packageHashMap.getValue(9)
+pkgNineUpdate = Update(timedelta(hours=10,minutes=20),"410 S State St","84111","Salt Lake City","UT")
+pkgNine.update = pkgNineUpdate
+
 
 packageBundleOne = [1,8,13,14,15,16,19,20,21,29,30,34,37,39,40]
 packageBundleTwo = [3,6,9,18,25,28,31,32,36,38]
@@ -77,13 +83,6 @@ truckOne = Truck(timedelta(hours=8),gpsMap)
 truckTwo = Truck(timedelta(hours=9,minutes =5),gpsMap)
 truckOne.loadTruck(packageHashMap,packageBundleOne)
 truckTwo.loadTruck(packageHashMap,packageBundleTwo)
-
-
-#package 9 address updated at 10:20am (410 S. State St., Salt Lake City, UT 84111)
-pkgNine = packageHashMap.getValue(9)
-pkgNine.zipCode = "84111"
-pkgNine.address = "410 S State St"
-
 
 
 #First two trucks start their routes (at their departureTime)
